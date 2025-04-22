@@ -1,5 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -325,7 +329,86 @@ private ArrayList<Producto> productosComprados; // Lista de productos comprados
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnImprimirFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirFacturaActionPerformed
-        // TODO add your handling code here:
+        imprimirFactura();
+} 
+
+private void imprimirFactura() {
+    PrinterJob job = PrinterJob.getPrinterJob();
+    job.setPrintable(new Printable() {
+        @Override
+        public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
+            if (pageIndex > 0) {
+                return NO_SUCH_PAGE;
+            }
+
+            Graphics2D g2d = (Graphics2D) graphics;
+            g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+
+            int y = 20;
+            g2d.drawString("Factura de Contado", 100, y);
+            y += 20;
+
+            g2d.drawString("Nombre de la Empresa: " + nombreEmpresa, 20, y);
+            y += 20;
+            g2d.drawString("Cédula Jurídica: " + cedulaJuridica, 20, y);
+            y += 20;
+            g2d.drawString("Teléfono: " + telefono, 20, y);
+            y += 20;
+            g2d.drawString("Ubicación: " + lugar, 20, y);
+            y += 20;
+
+            g2d.drawString("Cliente: " + clienteNombre, 20, y);
+            y += 20;
+            g2d.drawString("Teléfono: " + clienteTelefono, 20, y);
+            y += 20;
+            g2d.drawString("Dirección: " + clienteDireccion, 20, y);
+            y += 20;
+
+            g2d.drawString("Factura N°: " + texNumeroFactura.getText(), 20, y);
+            y += 20;
+            g2d.drawString("Fecha: " + texFechaFactura.getText(), 20, y);
+            y += 20;
+
+            // Imprimir productos comprados
+            DefaultTableModel model = (DefaultTableModel) tbeProductosComprados.getModel();
+            g2d.drawString("Productos Comprados:", 20, y);
+            y += 20;
+
+            for (int i = 0; i < model.getRowCount(); i++) {
+                String codigo = model.getValueAt(i, 0).toString();
+                String producto = model.getValueAt(i, 1).toString();
+                String cantidad = model.getValueAt(i, 2).toString();
+                String precio = model.getValueAt(i, 3).toString();
+                String subtotal = model.getValueAt(i, 4).toString();
+                g2d.drawString("Código: " + codigo + ", Producto: " + producto +
+                               ", Cantidad: " + cantidad + ", Precio: " + precio +
+                               ", Subtotal: " + subtotal, 20, y);
+                y += 20;
+            }
+
+            // Totales
+            g2d.drawString("Subtotal: " + texSubtotal.getText(), 20, y);
+            y += 20;
+            g2d.drawString("IVA: " + texIVA.getText(), 20, y);
+            y += 20;
+            g2d.drawString("Descuento: " + texDescuento.getText(), 20, y);
+            y += 20;
+            g2d.drawString("Total: " + texTotalFactura.getText(), 20, y);
+
+            return PAGE_EXISTS;
+        }
+    });
+
+    boolean doPrint = job.printDialog();
+    if (doPrint) {
+        try {
+            job.print();
+            JOptionPane.showMessageDialog(this, "Factura impresa correctamente.");
+            salir(); // Cierra la ventana
+        } catch (PrinterException e) {
+            JOptionPane.showMessageDialog(this, "Error al imprimir la factura: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     }//GEN-LAST:event_btnImprimirFacturaActionPerformed
 
     private void btnAplicarDescuentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAplicarDescuentoActionPerformed
@@ -342,7 +425,7 @@ private ArrayList<Producto> productosComprados; // Lista de productos comprados
         // Cargar productos en la tabla
         DefaultTableModel model = (DefaultTableModel) tbeProductosComprados.getModel();
         for (Producto p : productosComprados) {
-            model.addRow(new Object[]{p.getCodigo(), p.getNombre(), p.getCantidadComprada(), p.getPrecio()}); // Asumiendo cantidad 1 para simplificar
+            model.addRow(new Object[]{p.getCodigo(), p.getNombre(), p.getCantidadComprada(), p.getPrecio(), p.getCantidadComprada()* p.getPrecio()} ); // Asumiendo cantidad 
         }
         
         // Mostrar datos del local comercial
@@ -374,7 +457,11 @@ private ArrayList<Producto> productosComprados; // Lista de productos comprados
     texDescuento.setText(String.valueOf(descuento)); // Mostrar el descuento calculado
     texTotalFactura.setText(String.valueOf(total));
 }
-    
+    private void salir() {
+        Usuario usuario = new Usuario(); 
+        new VentanaMenuPrincipal( usuario).setVisible(true);
+        dispose();
+    }
 
     private void aplicarDescuento() {
         try {
@@ -389,12 +476,6 @@ private ArrayList<Producto> productosComprados; // Lista de productos comprados
     }
     }
 
-    private void imprimirFactura() {
-        // Aquí puedes implementar la lógica para imprimir la factura.
-        JOptionPane.showMessageDialog(this, "Factura impresa correctamente.");
-        dispose(); // Cierra la ventana
-    }
-    
     public static void main(String args[]) {
        java.awt.EventQueue.invokeLater(() -> {
             // Esta es una prueba para mostrar la ventana con datos de ejemplo.
