@@ -345,29 +345,28 @@ private void imprimirFactura() {
             g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 
             int y = 20;
-            g2d.drawString("Factura de Contado", 100, y);
+            g2d.drawString(nombreEmpresa, 100, y); // Centro la empresa
             y += 20;
 
-            g2d.drawString("Nombre de la Empresa: " + nombreEmpresa, 20, y);
-            y += 20;
             g2d.drawString("Cédula Jurídica: " + cedulaJuridica, 20, y);
-            y += 20;
-            g2d.drawString("Teléfono: " + telefono, 20, y);
-            y += 20;
-            g2d.drawString("Ubicación: " + lugar, 20, y);
+            g2d.drawString("Factura de Contado", 300, y); // Alineado a la derecha
             y += 20;
 
+            g2d.drawString("Teléfono: " + telefono, 20, y);
+            g2d.drawString("Factura N°: " + texNumeroFactura.getText(), 300, y); // Alineado a la derecha
+            y += 20;
+
+            g2d.drawString("Ubicación: " + lugar, 20, y);
+            g2d.drawString("Fecha: " + texFechaFactura.getText(), 300, y); // Alineado a la derecha
+            y += 30;
+
+            // Mostrar datos del cliente
             g2d.drawString("Cliente: " + clienteNombre, 20, y);
             y += 20;
             g2d.drawString("Teléfono: " + clienteTelefono, 20, y);
             y += 20;
             g2d.drawString("Dirección: " + clienteDireccion, 20, y);
-            y += 20;
-
-            g2d.drawString("Factura N°: " + texNumeroFactura.getText(), 20, y);
-            y += 20;
-            g2d.drawString("Fecha: " + texFechaFactura.getText(), 20, y);
-            y += 20;
+            y += 30;
 
             // Imprimir productos comprados
             DefaultTableModel model = (DefaultTableModel) tbeProductosComprados.getModel();
@@ -385,15 +384,16 @@ private void imprimirFactura() {
                                ", Subtotal: " + subtotal, 20, y);
                 y += 20;
             }
+            y += 20; // Aumenta el espacio
 
             // Totales
-            g2d.drawString("Subtotal: " + texSubtotal.getText(), 20, y);
+            g2d.drawString("\nSubtotal: " + texSubtotal.getText(), 300, y);
             y += 20;
-            g2d.drawString("IVA: " + texIVA.getText(), 20, y);
+            g2d.drawString("IVA: " + texIVA.getText(), 300, y);
             y += 20;
-            g2d.drawString("Descuento: " + texDescuento.getText(), 20, y);
+            g2d.drawString("Descuento: " + texDescuento.getText(), 300, y);
             y += 20;
-            g2d.drawString("Total: " + texTotalFactura.getText(), 20, y);
+            g2d.drawString("Total: " + texTotalFactura.getText(), 300, y);
 
             return PAGE_EXISTS;
         }
@@ -458,9 +458,8 @@ private void imprimirFactura() {
     texTotalFactura.setText(String.valueOf(total));
 }
     private void salir() {
-        Usuario usuario = new Usuario(); 
-        new VentanaMenuPrincipal( usuario).setVisible(true);
-        dispose();
+        new VentanaInicioSesion().setVisible(true); // Cambia a VentanaInicioSesion
+        dispose(); // Cierra la ventana actual
     }
 
     private void aplicarDescuento() {

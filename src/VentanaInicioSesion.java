@@ -41,6 +41,7 @@ public class VentanaInicioSesion extends javax.swing.JFrame {
         crearUsuario = new javax.swing.JButton();
         lbPassword = new javax.swing.JLabel();
         txPassword = new javax.swing.JPasswordField();
+        btnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -52,6 +53,8 @@ public class VentanaInicioSesion extends javax.swing.JFrame {
             }
         });
 
+        iniciarSecion.setBackground(new java.awt.Color(153, 255, 153));
+        iniciarSecion.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         iniciarSecion.setText("Iniciar Seción");
         iniciarSecion.setAutoscrolls(true);
         iniciarSecion.addActionListener(new java.awt.event.ActionListener() {
@@ -60,6 +63,8 @@ public class VentanaInicioSesion extends javax.swing.JFrame {
             }
         });
 
+        crearUsuario.setBackground(new java.awt.Color(0, 0, 255));
+        crearUsuario.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         crearUsuario.setText("Crear Usuario");
         crearUsuario.setAutoscrolls(true);
         crearUsuario.addActionListener(new java.awt.event.ActionListener() {
@@ -73,6 +78,15 @@ public class VentanaInicioSesion extends javax.swing.JFrame {
         txPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txPasswordActionPerformed(evt);
+            }
+        });
+
+        btnSalir.setBackground(new java.awt.Color(204, 0, 0));
+        btnSalir.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
             }
         });
 
@@ -90,7 +104,8 @@ public class VentanaInicioSesion extends javax.swing.JFrame {
                     .addComponent(txUsuario)
                     .addComponent(iniciarSecion, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(crearUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSalir))
                 .addGap(91, 91, 91))
         );
         layout.setVerticalGroup(
@@ -106,9 +121,11 @@ public class VentanaInicioSesion extends javax.swing.JFrame {
                     .addComponent(lbPassword))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(iniciarSecion)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(crearUsuario)
-                .addContainerGap(129, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
+                .addComponent(btnSalir)
+                .addContainerGap(70, Short.MAX_VALUE))
         );
 
         pack();
@@ -130,6 +147,10 @@ public class VentanaInicioSesion extends javax.swing.JFrame {
         new VentanaNuevoUsuario().setVisible(true);
                 dispose();
     }//GEN-LAST:event_crearUsuarioActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        dispose(); // Cierra la ventana actual
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -168,6 +189,7 @@ public class VentanaInicioSesion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSalir;
     private javax.swing.JButton crearUsuario;
     private javax.swing.JButton iniciarSecion;
     private javax.swing.JLabel lbPassword;
